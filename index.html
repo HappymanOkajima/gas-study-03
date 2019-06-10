@@ -1,0 +1,21 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- vue.js -->
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+  <div id="app">
+    <span>場所</span>
+    <input v-model="location" type="text" />
+    <button v-on:click="find" >検索</button>
+    <hr />
+    <table>
+      <tr v-for="row in rows">
+        <td v-for="item in row">{{ item }}</td>
+      </tr>
+    </table>
+  </div>
+<?!= include('js'); ?>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<script> 
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      location: null,
+      memberList: []
+    },
+    // 算出プロパティ
+    // ここでは初期表示（created）および検索ボタンクリック(find)から
+    // 呼ばれたGAS関数の結果をセットすることで、描画に反映されることになる
+    computed: {
+      rows: function() {
+        return this.memberList;
+      }
+    },
+    // メソッド
+    methods: {
+      setMemberList: function(results) {
+        this.memberList = results;
+      },
+      find: function(event) {
+        const location = this.location;
+        google.script.run
+        .withSuccessHandler(this.setMemberList)
+        .withFailureHandler(function(arg) {
+          console.log(arg)
+          alert('データの取得に失敗しました。');
+        }).findByLocation(location);
+      }
+    },
+    // Vueインスタンス生成完了後処理
+    // ここではGASの関数を非同期に呼び出し結果をdata.memberListにセットする
+    created: function() {
+      google.script.run
+        .withSuccessHandler(this.setMemberList)
+        .withFailureHandler(function(arg) {
+          console.log(arg)
+          alert('データの取得に失敗しました。');
+        }).findAll();
+    }
+  });
+</script>
